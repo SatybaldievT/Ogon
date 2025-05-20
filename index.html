@@ -29,9 +29,6 @@
         onChildAdded(controlsRef, (snapshot) => {
             const command = snapshot.val();
             const { key, timestamp } = command;
-            const messageElement = document.createElement('p');
-            messageElement.textContent = `Received: ${key} at ${new Date(timestamp).toLocaleTimeString()}`;
-            messagesDiv.appendChild(messageElement);
 
             // Эмуляция действия для клавиши
             handleKeyPress(key);

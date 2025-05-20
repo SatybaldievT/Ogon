@@ -24,8 +24,6 @@
         const database = getDatabase(app);
 
         // Получение команд
-        const messagesDiv = document.createElement('div');
-        document.body.appendChild(messagesDiv);
 
         const controlsRef = ref(database, 'controls');
         onChildAdded(controlsRef, (snapshot) => {

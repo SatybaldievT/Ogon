@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase Control Receiver</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.0/firebase-app.js";
+        import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.8.0/firebase-database.js";
+
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGT7HMksbmom5h1cjQwngnQn871cWCyRI",
+            authDomain: "lenaproj-1ea99.firebaseapp.com",
+            projectId: "lenaproj-1ea99",
+            storageBucket: "lenaproj-1ea99.firebasestorage.app",
+            messagingSenderId: "283996974576",
+            appId: "1:283996974576:web:b104b8ddea54333e270135",
+            databaseURL: "https://lenaproj-1ea99-default-rtdb.firebaseio.com"
+        };
+
+        // Инициализация Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Получение команд
+        const messagesDiv = document.createElement('div');
+        document.body.appendChild(messagesDiv);
+
+        const controlsRef = ref(database, 'controls');
+        onChildAdded(controlsRef, (snapshot) => {
+            const command = snapshot.val();
+            const { key, timestamp } = command;
+            const messageElement = document.createElement('p');
+            messageElement.textContent = `Received: ${key} at ${new Date(timestamp).toLocaleTimeString()}`;
+            messagesDiv.appendChild(messageElement);
+
+            // Эмуляция действия для клавиши
+            handleKeyPress(key);
+        });
+
+        // Функция обработки нажатий
+        function handleKeyPress(key) {
+            console.log(`Processing key: ${key}`);
+            // Эмуляция события нажатия клавиши
+            const keyEvent = new KeyboardEvent('keydown', {
+                key: key,
+                code: `Key${key.toUpperCase()}`,
+                bubbles: true,
+                cancelable: true
+            });
+
+            // Отправка события в текущее окно
+            window.dispatchEvent(keyEvent);
+            console.log(`Dispatched ${key} to window`);
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Получатель команд (W, A, D)</h1>
+    <p>Ожидание команд...</p>
+    <div class="gameframe-wrapper">
+        <iframe id="gameframe" frameborder="0"
+            style="border: none; aspect-ratio: 1.77778 / 1; width: 100%; height: 100%; display: initial;" scrolling="no"
+            allowfullscreen=""
+            data-src="https://html5.gamedistribution.com/a55c9cc9c21e4fc683c8c6857f3d0c75/?gd_sdk_referrer_url=https://gamaverse.ru/fireboy-watergirl-in-the-forest-temple-game/"
+            src="https://html5.gamedistribution.com/a55c9cc9c21e4fc683c8c6857f3d0c75/?gd_sdk_referrer_url=https://gamaverse.ru/fireboy-watergirl-in-the-forest-temple-game/"
+            data-gtm-yt-inspected-8="true">
+        </iframe>
+    </div>
+</body>
+
+</html>

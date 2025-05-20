@@ -2,6 +2,7 @@
 <html lang="ru">
 
 <head>
+    
     <meta charset="UTF-8">
     <title>Firebase Control Receiver</title>
     <script type="module">
@@ -29,7 +30,6 @@
         onChildAdded(controlsRef, (snapshot) => {
             const command = snapshot.val();
             const { key, timestamp } = command;
-
             // Эмуляция действия для клавиши
             handleKeyPress(key);
         });

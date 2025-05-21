@@ -3,6 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Firebase Control Sender</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.0/firebase-app.js";
     import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.8.0/firebase-database.js";
@@ -29,6 +54,7 @@
         key: key,
         timestamp: Date.now()
       });
+      console.log(`Sent: ${key}`);
     }
 
     // Слушаем нажатия клавиш
@@ -36,13 +62,24 @@
       const key = event.key.toLowerCase();
       if (['w', 'a', 'd'].includes(key)) {
         sendCommand(key);
-        console.log(`Sent: ${key}`);
       }
+    });
+
+    // Привязка кнопок
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('w-button').addEventListener('click', () => sendCommand('w'));
+      document.getElementById('a-button').addEventListener('click', () => sendCommand('a'));
+      document.getElementById('d-button').addEventListener('click', () => sendCommand('d'));
     });
   </script>
 </head>
 <body>
   <h1>Отправитель команд (W, A, D)</h1>
-  <p>Нажмите W, A или D для отправки команды.</p>
+  <p>Нажмите W, A или D на клавиатуре или используйте кнопки ниже.</p>
+  <div class="controls">
+    <button id="w-button">W</button>
+    <button id="a-button">A</button>
+    <button id="d-button">D</button>
+  </div>
 </body>
 </html>
